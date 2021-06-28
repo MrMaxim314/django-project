@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Система грузоперевозок</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header class="header">
+
+<ul>
+    <li><a href="{% url 'accounts:login' %}">Войти</a></li>
+    <li><a href="{% url 'accounts:signup' %}">Регистрация</a></li>
+    <li><a href="{% url 'accounts:cargo' %}">Список перевозчиков</a></li>
+</ul>
+
+</header>
+
+<section id="content">
+
+    <div class="main-image" style="background-image: url({% static 'images/truck-1030846_1280.jpg' %});"></div>
+
+    <div class="title"><h1>Наши результаты</h1></div>
+
+    <div class="service-list">
+
+        <div class="container">
+
+            <div class="block-services">
+
+        <div class="service-list-item">
+            <div class="img"><img src="{% static 'images/package.png' %}" alt="package"></div>
+            <div class="desc"><p>Пользователи добавили в систему {{ cargo }} груз</p></div>
+        </div>
+
+         <div class="service-list-item">
+            <div class="img"><img src="{% static 'images/weight.png' %}" alt="weight"></div>
+            <div class="desc"><p>Пользователь может заказать перевозку</p></div>
+        </div>
+
+         <div class="service-list-item">
+            <div class="img"><img src="{% static 'images/truck.png' %}" alt="truck"></div>
+            <div class="desc"><p>На данный момент в базе {{ transport_list }} перевозчик</p></div>
+        </div>
+
+        <div class="service-list-item">
+            <div class="img"><img src="{% static 'images/humans.png' %}" alt="humans"></div>
+            <div class="desc"><p>Выбор наших пользователей</p></div>
+        </div>
+
+        <div class="service-list-item">
+            <div class="img"><img src="{% static 'images/jeep.png' %}" alt="jeep"></div>
+            <div class="desc"><p>Заказано перевозок: {{ cargo_transfers }}</p></div>
+        </div>
+
+         <div class="service-list-item">
+            <div class="img"><img src="{% static 'images/car.png' %}" alt="car"></div>
+            <div class="desc"><p>Услуг заказано: {{ services }}</p></div>
+        </div>
+
+        </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказ услуги</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<style>
+
+    body{
+        margin: 0;
+        padding: 0;
+        font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+        background-color: #F3F3F3;
+    }
+
+    form{
+        display: none;
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+.container{
+    width: 80%;
+    margin: 0 auto;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th{
+    padding: 10px;
+    color: #fff;
+    background-color: #36304a;
+}
+
+td{
+    padding: 15px;
+    text-align: center;
+    background-color: rgb(224, 239, 241);
+}
+
+    #cars{
+        margin-bottom: 50px;
+    }
+
+
+input[type=text],input[type=number]{
+    font-family: Oswald-Medium;
+    font-size: 16px;
+    color: #43383e;
+    line-height: 1.2;
+    margin: 0 auto;
+    display: block;
+    width: 50%;
+    height: 62px;
+    background: #fff;
+    border: 0;
+    border-radius: 31px;
+    padding: 0 35px 0 35px;
+    outline: none;
+}
+
+
+</style>
+
+<body>
+
+<section id="cars">
+
+<div class="container">
+
+    <table>
+        <tr>
+        <th>Владелец</th>
+        <th>Марка</th>
+        <th>Тип транспорта</th>
+        <th>Номер</th>
+        <th>Цена за день</th>
+        <th>Заказ</th>
+        </tr>
+         {% for car in cars %}
+              <tr id="choice">
+             <td>{{ car.car_owner }}</td>
+             <td id="choice-car" onclick="this.selectCar = function () {
+                let a = $(this).html();
+                $('#id_mark').val(a);
+             }
+             this.selectCar()">{{ car.car_name }}</td>
+             <td>{{ car.car_type }}</td>
+             <td>{{ car.number }}</td>
+                  <td onclick="this.scount = function () {
+                let price = $(this).html();
+                $('#id_total_price').val(price);
+                  }
+                  this.scount()">{{ car.price_per_day }}</td>
+             <td><button>Заказать</button></td>
+             </tr>
+         {% endfor %}
+    </table>
+
+</div>
+
+</section>
+
+<section id="content">
+    <form method="post">
+        
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit">
+        
+    </form>
+</section>
+
+<script>
+    $('button').click(function () {
+    $('form').css('display', 'block');
+    })
+</script>
+
+</body>
+</html>

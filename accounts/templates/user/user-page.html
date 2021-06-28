@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <title>Личный кабинет</title>
+
+    <style>
+
+        .css-tabs-wrapper {
+	max-width: 830px;
+	margin: 50px auto 20px;
+}
+.css-tabs-wrapper > input {
+	display: none;
+}
+.css-tabs-wrapper > label {
+	display: block;
+	float: left;
+	padding: 10px 20px;
+	margin-right: 5px;
+	cursor: pointer;
+	transition: all .25s ease-in-out;
+}
+.css-tabs-wrapper > label:hover,
+.css-tabs-wrapper > input:checked + label {
+	background: #36bd82;
+	color: #fff;
+}
+.tabs {
+	clear: both;
+	min-height: 350px;
+	perspective: 600px;
+}
+.tabs > div {
+	position: absolute;
+	opacity: 0;
+	width: 100%;
+	border: 2px solid #36bd82;
+	padding: 10px 30px 40px;
+	transform: rotateX(-25deg);
+	transform-origin: top center;
+	transition: opacity .3s ease-in-out, transform 1s;
+}
+#tab-nav-1:checked ~ .tabs > div:nth-of-type(1),
+#tab-nav-2:checked ~ .tabs > div:nth-of-type(2),
+#tab-nav-3:checked ~ .tabs > div:nth-of-type(3),
+#tab-nav-4:checked ~ .tabs > div:nth-of-type(4){
+	opacity: 1;
+	z-index: 1;
+	transform: rotateX(0deg);
+}
+th, td{
+    padding: 8px;
+}
+    </style>
+
+</head>
+<body>
+
+<header class="header">
+
+<ul>
+    <li><a href="{% url 'accounts:logout' %}">Выйти</a></li>
+    <li><a href="{% url 'cargos:add' %}">Добавить груз</a></li>
+    <li><a href="{% url 'cargos:transfer' %}">Заказать перевозку</a></li>
+    <li><a href="{% url 'accounts:cargo' %}">Список перевозчиков</a></li>
+    <li><a href="{% url 'cargos:rent' %}">Аренда машины</a></li>
+    <li><a href="{% url 'cargos:root' %}">Перевозка по маршруту</a></li>
+</ul>
+
+</header>
+
+<section id="content">
+
+{% if user.is_authenticated %}
+
+    <h1 style="text-align: center;">Здравствуй, {{ user.username }}</h1>
+
+{% endif %}
+
+<div class="css-tabs-wrapper">
+	<input type="radio" name="tabs" id="tab-nav-1" checked>
+	<label for="tab-nav-1">Грузы</label>
+	<input type="radio" name="tabs" id="tab-nav-2">
+	<label for="tab-nav-2">Перевозки</label>
+	<input type="radio" name="tabs" id="tab-nav-3">
+	<label for="tab-nav-3">Аренды</label>
+
+	<div class="tabs">
+		<div>
+			<h3>Добавленные грузы</h3>
+        {% if my_cargos.count > 0 %}
+            {% for my_cargo in my_cargos %}
+                <p>{{ my_cargo }}</p>
+            {% endfor %}
+        {% endif %}
+		</div>
+		<div>
+			<h3>Перевозки</h3>
+             {% if my_cargos.count > 0 %}
+            {% for my_trf in my_transfers %}
+                <table>
+                <tr>
+                    <th>№</th>
+                    <th>Компания</th>
+                    <th>Груз</th>
+                    <th>Откуда</th>
+                    <th>Куда</th>
+                    <th>Перевозчик</th>
+                    <th>Номер машины</th>
+                    <th>Статус</th>
+                </tr>
+                <tr>
+                    <td>{{ my_trf.id }}</td>
+                    <td>{{ my_trf.company_name }}</td>
+                    <td>{{ my_trf.cargo }}</td>
+                    <td>{{ my_trf.adr_from }}</td>
+                    <td>{{ my_trf.adr_to }}</td>
+                    <td>{{ my_trf.transporter_field }}</td>
+                    <td>{{ my_trf.car_number }}</td>
+                    <td>{{ my_trf.status }}</td>
+                </tr>
+                </table>
+            {% endfor %}
+        {% endif %}
+		</div>
+		<div id="third">
+			<h3>Аренды машин</h3>
+            <table>
+                <tr>
+                <th>Марка ТС</th>
+                <th>Цена за день</th>
+                <th>Количество дней</th>
+                </tr>
+                {% for r in rent %}
+                <tr>
+                    <td>{{ r.mark }}</td>
+                <td>{{ r.total_price }}</td>
+                <td>{{ r.days }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+		</div>
+	</div>
+</div>
+
+</section>
+
+
+<script>
+    $(document).ready(function() {
+
+      if( $('#third p').is(':empty')) {
+            $('#third p').html('Услуг не обнаружено');
+}
+
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <title>Выполните вход</title>
+</head>
+<body>
+
+<div id="site-form">
+
+    <h1>Войдите в аккаунт</h1>
+
+<form method="post" id="feedback">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="button">
+    <input type="submit" value="Войти">
+    </div>
+
+</form>
+
+    <a href="{% url 'accounts:signup' %}">Регистрация</a>
+
+</div>
+
+</body>
+</html>

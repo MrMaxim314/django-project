@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список доступных перевозчиков</title>
+
+    <style>
+        body{
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+header{
+    width: 15%;
+    height: 100vh;
+    float: left;
+    position: fixed;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 15%;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+li a.active {
+  background-color: #36bd82;
+  color: white;
+}
+
+li a:hover:not(.active) {
+  background-color: #36bd82;
+  color: white;
+}
+
+#content{
+    width: 85%;
+    float: right;
+    padding-bottom: 25px;
+}
+        
+#content h1{
+    text-align: center;
+}        
+
+.container{
+    width: 80%;
+    margin: 0 auto;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th{
+    padding: 10px;
+    color: #fff;
+    background-color: #36304a;
+}
+
+td{
+    padding: 15px;
+    text-align: center;
+    background-color: rgb(224, 239, 241);
+}
+
+    </style>
+
+</head>
+<body>
+
+<header class="header">
+
+<ul>
+    <li><a href="{% url 'accounts:login' %}">Войти</a></li>
+    <li><a href="{% url 'accounts:signup' %}">Регистрация</a></li>
+    <li><a href="{% url 'accounts:cargo' %}">Список перевозчиков</a></li>
+</ul>
+
+</header>
+
+<section id="content">
+
+    <h1>Список перевозчиков</h1>
+
+<div class="container">
+    {% if conveyor.count > 0 %}
+    <table>
+    <tr>
+        <th>№</th>
+        <th>Название</th>
+        <th>Страна регистрации</th>
+        <th>Адрес</th>
+        <th>Тип транспорта</th>
+    </tr>
+        {% for con in conveyor %}
+        <tr>
+            <td>{{ con.id }}</td>
+            <td>{{ con.name }}</td>
+            <td>{{ con.country }}</td>
+            <td>{{ con.address }}</td>
+            <td>{{ con.type_of_transport }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+</div>
+
+</section>
+
+</body>
+</html>
